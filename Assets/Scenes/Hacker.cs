@@ -83,7 +83,7 @@ public class Hacker : MonoBehaviour {
 
     void checkPasswords(string passwordInput)
     {
-      /*  if (passwordInput == level1Passwords[1])
+      /*  if (passwordInput == level1Passwords[1]) //instead of switch statment 
         {
             level = 1;
             win();
@@ -106,6 +106,10 @@ public class Hacker : MonoBehaviour {
             win();
         }
 
+        else if(passwordInput == "d")
+        {
+            showMainMenu();
+        }
         else
         {
         
@@ -122,15 +126,18 @@ public class Hacker : MonoBehaviour {
         switch (level)
         {
             case 1:
-                password = level1Passwords[0];
+                int index = Random.Range(0, level1Passwords.Length);
+                password = level1Passwords[index];
                 break;
 
             case 2:
-                password = level2Passwords[1];
+                int index2 = Random.Range(0, level2Passwords.Length);
+                password = level2Passwords[index2];
                 break;
 
             case 3:
-                password = level2Passwords[3];
+                int index3 = Random.Range(0, level2Passwords.Length);
+                password = level2Passwords[index3];
                 break;
             default:
                 Debug.LogError(" Inavlid level Number" );
@@ -139,12 +146,13 @@ public class Hacker : MonoBehaviour {
                 
         }
         Terminal.WriteLine(" Please Enter a Password: ");
+        Terminal.WriteLine("Press 'd' to return to main menu");
     }
 
     void tryAgain()
     {
         currentScreen = Screen.PasswordScreen;
-        Terminal.WriteLine(" Incorrect Password please try Again");
+        Terminal.WriteLine(" Incorrect Password please try Again or press 'd' to return to menu");
         Terminal.WriteLine(" Please Enter a Password: ");
 
     }
@@ -153,9 +161,50 @@ public class Hacker : MonoBehaviour {
     {
         Terminal.ClearScreen();
         currentScreen = Screen.WinScreen;
-        Terminal.WriteLine("Correct you Win!");
-        Terminal.WriteLine("To play again Press d");    
+        rewardScreen();   
     }
+
+    void rewardScreen()
+    {
+       switch (level)
+        {
+
+            case 1:
+                Terminal.WriteLine("Correct you Win!");
+                Terminal.WriteLine("Have a book.....");
+                Terminal.WriteLine("To play again Press d");
+                Terminal.WriteLine(@"
+    _________        
+   /        /| 
+  /        / /   
+ /________/ /
+(_________(/
+");
+                break;
+
+            case 2:
+                Terminal.WriteLine("Correct you Win!");
+                Terminal.WriteLine("Your into Facebook");
+                Terminal.WriteLine("To play again Press d");        Terminal.WriteLine(@"
+  ____________ 
+ |    _________|
+ |   |
+ |   |_____
+ |   ______| 
+ |  |
+ |  |
+ |__|
+");
+                break;
+
+            case 3:
+                Terminal.WriteLine("Correct you Win!");
+                Terminal.WriteLine("To play again Press d");
+                break;
+
+        }
+    }
+    
 
     void playAgain(string playInput)
     {
@@ -168,11 +217,4 @@ public class Hacker : MonoBehaviour {
             Terminal.WriteLine(" woops try pressing the 'd' key ");
         }
     }
-    
-
-   
-  // Update is called once per frame
-	void Update () {
-		
-	}
 }
