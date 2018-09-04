@@ -3,11 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Hacker : MonoBehaviour {
-    
+
+    //Game configuration data
+    string[] level1Passwords = { "conor", "darragh", "saoirse", "rachel", "lee" };
+    string[] level2Passwords = { "jemmy", "kayo", "sadie", "demi", "graham" };
+
+
     //Game State
     int level;
     enum Screen { MainMenu, PasswordScreen, WinScreen}
     Screen currentScreen;
+    string password;
+ 
     
 
 	
@@ -45,7 +52,7 @@ public class Hacker : MonoBehaviour {
 
         else if(currentScreen == Screen.PasswordScreen)
         {
-            passwords(input);
+            checkPasswords(input);
         }
 
         else if(currentScreen == Screen.WinScreen)
@@ -56,53 +63,46 @@ public class Hacker : MonoBehaviour {
 
         void RunMainMenu(string userInput) { 
         {
-
-            if (userInput == "1")
+            bool isValidLevelNumber = (userInput == "1" || userInput == "2" || userInput =="3");
+            if (isValidLevelNumber)
             {
-                level = 1;
+                level = int.Parse(userInput);
                 startGame();
             }
-
-            else if (userInput == "2")
-            {
-                level = 2;
-                startGame();
-            }
-
-            else if (userInput == "3")
-            {
-                level = 3;
-                startGame();
-            }
-
-            else if (userInput == "Conor")
+            
+            else if (userInput == "Conor") //easter egg
             {
                 Terminal.WriteLine("Welcome Master Conor");
             }
             else
             {
-                Terminal.WriteLine("Select a valid input");
+                Terminal.WriteLine("Select a valid level");
             }
         }
     }
 
-    void passwords(string passwordInput)
+    void checkPasswords(string passwordInput)
     {
-        if (passwordInput == "Conor")
+      /*  if (passwordInput == level1Passwords[1])
         {
             level = 1;
             win();
         }
 
-       else if (passwordInput == "Darragh")
+       else if (passwordInput ==level2Passwords[3])
         {
             level = 2;
             win();
         }
 
-        else if (passwordInput == "Saoirse")
+        else if (passwordInput == level2Passwords[2])
         {
             level = 3;
+            win();
+        }*/
+
+        if(passwordInput == password)
+        {
             win();
         }
 
@@ -118,7 +118,26 @@ public class Hacker : MonoBehaviour {
     void startGame()
     {
         currentScreen = Screen.PasswordScreen;
-        Terminal.WriteLine(" You have chosen level: " + level);
+        Terminal.ClearScreen();
+        switch (level)
+        {
+            case 1:
+                password = level1Passwords[0];
+                break;
+
+            case 2:
+                password = level2Passwords[1];
+                break;
+
+            case 3:
+                password = level2Passwords[3];
+                break;
+            default:
+                Debug.LogError(" Inavlid level Number" );
+                break;
+                
+                
+        }
         Terminal.WriteLine(" Please Enter a Password: ");
     }
 
@@ -126,7 +145,6 @@ public class Hacker : MonoBehaviour {
     {
         currentScreen = Screen.PasswordScreen;
         Terminal.WriteLine(" Incorrect Password please try Again");
-        Terminal.WriteLine(" You are on level: " + level);
         Terminal.WriteLine(" Please Enter a Password: ");
 
     }
@@ -147,7 +165,7 @@ public class Hacker : MonoBehaviour {
         }
         else
         {
-            Terminal.WriteLine(" woops try pressing d ");
+            Terminal.WriteLine(" woops try pressing the 'd' key ");
         }
     }
     
