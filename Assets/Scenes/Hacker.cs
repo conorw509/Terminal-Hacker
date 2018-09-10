@@ -7,6 +7,7 @@ public class Hacker : MonoBehaviour {
     //Game configuration data
     string[] level1Passwords = { "conor", "darragh", "saoirse", "rachel", "lee" };
     string[] level2Passwords = { "jemmy", "kayo", "sadie", "demi", "graham" };
+    const string menuHint = " Type 'menu' to return to main menu";
 
 
     //Game State
@@ -40,8 +41,7 @@ public class Hacker : MonoBehaviour {
 
         if (input == "menu")
         {
-         
-            showMainMenu();
+           showMainMenu();
             
         }
 
@@ -53,11 +53,6 @@ public class Hacker : MonoBehaviour {
         else if(currentScreen == Screen.PasswordScreen)
         {
             checkPasswords(input);
-        }
-
-        else if(currentScreen == Screen.WinScreen)
-        {
-            playAgain(input);
         }
     } 
 
@@ -83,29 +78,16 @@ public class Hacker : MonoBehaviour {
 
     void checkPasswords(string passwordInput)
     {
-      /*  if (passwordInput == level1Passwords[1])
-        {
-            level = 1;
-            win();
-        }
-
-       else if (passwordInput ==level2Passwords[3])
-        {
-            level = 2;
-            win();
-        }
-
-        else if (passwordInput == level2Passwords[2])
-        {
-            level = 3;
-            win();
-        }*/
-
+     
         if(passwordInput == password)
         {
             win();
         }
 
+        else if(passwordInput == "d")
+        {
+            showMainMenu();
+        }
         else
         {
         
@@ -122,30 +104,35 @@ public class Hacker : MonoBehaviour {
         switch (level)
         {
             case 1:
-                password = level1Passwords[0];
+                int index = Random.Range(0, level1Passwords.Length);
+                password = level1Passwords[index];
                 break;
 
             case 2:
-                password = level2Passwords[1];
+                int index2 = Random.Range(0, level2Passwords.Length);
+                password = level2Passwords[index2];
                 break;
 
             case 3:
-                password = level2Passwords[3];
+                int index3 = Random.Range(0, level2Passwords.Length);
+                password = level2Passwords[index3];
                 break;
+
             default:
                 Debug.LogError(" Inavlid level Number" );
                 break;
                 
                 
         }
-        Terminal.WriteLine(" Please Enter a Password: ");
+        Terminal.WriteLine(" Please Enter a Password, hint: " +password.Anagram());
+        Terminal.WriteLine(menuHint);
     }
 
     void tryAgain()
     {
         currentScreen = Screen.PasswordScreen;
-        Terminal.WriteLine(" Incorrect Password please try Again");
-        Terminal.WriteLine(" Please Enter a Password: ");
+        Terminal.WriteLine(menuHint);
+        Terminal.WriteLine(" Please Enter a Password, hint: " +password.Anagram());
 
     }
 
@@ -153,26 +140,47 @@ public class Hacker : MonoBehaviour {
     {
         Terminal.ClearScreen();
         currentScreen = Screen.WinScreen;
-        Terminal.WriteLine("Correct you Win!");
-        Terminal.WriteLine("To play again Press d");    
+        rewardScreen();   
     }
 
-    void playAgain(string playInput)
+    void rewardScreen()
     {
-        if (playInput == "d")
+       switch (level)
         {
-            showMainMenu();
-        }
-        else
-        {
-            Terminal.WriteLine(" woops try pressing the 'd' key ");
+
+            case 1:
+                Terminal.WriteLine("Correct you Win!");
+                Terminal.WriteLine("Have a book.....");
+                Terminal.WriteLine(menuHint);
+                Terminal.WriteLine(@"
+    _________        
+   /        /| 
+  /        / /   
+ /________/ /
+(_________(/
+");
+                break;
+
+            case 2:
+                Terminal.WriteLine("Correct you Win!");
+                Terminal.WriteLine("Your into Facebook");
+                Terminal.WriteLine(menuHint);   Terminal.WriteLine(@"
+  ____________ 
+ |    _________|
+ |   |
+ |   |_____
+ |   ______| 
+ |  |
+ |  |
+ |__|
+");
+                break;
+
+            case 3:
+                Terminal.WriteLine("Correct you Win!");
+                Terminal.WriteLine(menuHint);
+                break;
+
         }
     }
-    
-
-   
-  // Update is called once per frame
-	void Update () {
-		
-	}
 }
